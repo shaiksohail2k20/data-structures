@@ -1,0 +1,134 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <title>BST</title>
+</head>
+<body style="background-color: powderblue;">
+    <br><h1 align="center">Binary Search Tree</h1><br><br><br>
+    <br><br><br><p id="Tree_disp" class="fs-4" style="margin-left: 50px;"></p><br><br><br><br>
+    <div class="main" style="display: flex; flex-direction: row;">
+        <div class="head" style="width: 55%;">
+            <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-5">
+                    <label for="input" class="fs-4 form-label">Enter node values one by one</label>
+                </div>
+                <div class="col-sm-3">
+                    <input type="number" class="form-control" placeholder="value" onchange="fun1()" id="input">
+                </div>
+            </div>
+            <p class = "container fs-5" id="d"></p>
+        </div>
+        <div class="tail" style="width: 45%;">
+            <br><h3 id="a"></h3>
+           
+        </div>
+    </div>
+    <script>
+        class Node {
+            constructor(data) {
+                this.data = data;
+                this.left = null;
+                this.right = null;
+            }
+        }
+        class BST {
+            constructor() {
+                this.root = null;
+                this.size = 0;
+            }
+
+            len() {
+                function f(temp) {
+                    if (temp == null)
+                        return 0;
+                    else {                       
+                        return Math.max(f(temp.left), f(temp.right))+1;
+                    }
+                }
+                val = f(this.root);
+                document.getElementById("d").innerHTML = `${val}`;
+                return val;
+            }
+
+            displa() {
+                document.getElementById("Tree_disp").innerHTML = "";
+                let q1 = [this.root], q2 = [], i,flag, val = this.len(),j;
+                while(q1.length) {
+                    q2 = [], flag = 1;
+                    for (i=0; i<q1.length; i++) {
+                        if (q1[i] != null) {
+                            flag = 0;
+                            break;
+                        }
+                    }
+                    if (flag)
+                        break;
+                
+                for(i=1; i<Math.pow(2,val-1); i++)
+                    document.getElementById("Tree_disp").innerHTML += ' &emsp;';
+                
+                for(i=0; i<q1.length; i++) {
+                    if (q1[i] != null) {
+                        document.getElementById("Tree_disp").innerHTML += `&nbsp;${q1[i].data}`;
+                        q2.push(q1[i].left);
+                        q2.push(q1[i].right);
+                    }
+                    else {
+                        document.getElementById("Tree_disp").innerHTML += `&nbsp;&nbsp;N`;
+                        q2.push(null);
+                        q2.push(null);
+                    }
+                    for(j=1; j<Math.pow(2,val); j++)
+                        document.getElementById("Tree_disp").innerHTML += ' &emsp;';
+                }
+                val -= 1;
+                q1 = []
+                for (i=0; i<q2.length; i++)
+                    q1.push(q2[i]);
+                document.getElementById("Tree_disp").innerHTML += "<br>";
+                }
+            }
+
+            add(val) {
+                var node = new Node(val);
+                if (this.root == null) {
+                    this.root = node;
+                }
+                else {
+                    function fun(temp) {
+                        if (val < temp.data) {
+                            if (temp.left == null) 
+                                temp.left = node;
+                            else 
+                                fun(temp.left);
+                        }
+                        else {
+                            if (temp.right == null)
+                                temp.right = node;
+                            else
+                                fun(temp.right);
+                        }
+                    }
+                    fun(this.root);                
+                }
+                this.size += 1;
+            }
+        }
+
+        var n = new BST();
+        function fun1() {
+            val = Number(document.getElementById("input").value);
+            n.add(val);
+            n.displa();
+            document.getElementById("input").value = "";
+            n.len();
+        }
+    </script>
+</body>
+</html>

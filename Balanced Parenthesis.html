@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <title>Balanced Paranthesis</title>
+</head>
+<body style="background-color:powderblue;">
+        <h1 align="center">Balanced Paranthesis</h1>
+        <div class="container"><br><br>
+          <div class="row">
+             <div class="col-sm-4">
+               <label for="array" class="form-label fs-4">Enter the string </label>           
+             </div>
+             <div class = "col-sm-3">
+               <input type="text" class="form-control" id="inp" onchange="fun1()" >
+             </div>
+          </div><br>
+          <p id = "disp" class="fs-4">Is the string balanced : </p><br>
+        </div>
+        <script>
+           var stack = [],i=0;
+           function fun1() {
+              let s = document.getElementById("inp").value;
+              let b=0;
+              for(let i=0; i< s.length; i++)
+              {
+                if(s[i]=="(")
+                    stack.push(s[i]);
+                if(s[i]==")")
+                    if(stack.length!=0)
+                        stack.pop(s[i]);
+                    else
+                    {
+                        b=1;
+                        break;
+                    }
+              }
+              if(b==0 && stack.length == 0)
+                b=2;
+              else
+                b=1;
+              if(b==2)
+              document.getElementById("disp").innerHTML = ("Is the string balanced : YES");
+              else
+              document.getElementById("disp").innerHTML = ("Is the string balanced : NO");
+              document.getElementById("inp").value = "";
+              b=0;
+           }
+          
+
+        </script>
+</body>
+</html>

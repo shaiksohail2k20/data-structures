@@ -1,0 +1,268 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <title>Linked List</title>
+</head>
+<body style="background-color: powderblue;">
+    <br><h1 align = "center">Linked List Operations</h1>
+    <div class="container">
+        <p id="disp" class="fs-3" style="margin: 50px 0px 70px 80px;">Intially List is empty........</p>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-2 col-md-2">
+                <button type="button" class="btn btn-primary" onclick="funa()">Append</button>
+            </div>
+            <div class="col-md-2 col-xs-2" style="margin-left: 40px;">
+                <button type="button" class="btn btn-primary" style="width: 80px;" onclick="funb()">Insert</button>
+            </div>
+            <div class="col-md-2 col-xs-2" style="margin-left: 40px;">
+                <button type="button" class="btn btn-primary" onclick="func()">Delete</button>
+            </div>
+            <div class="col-md-2 col-xs-2" style="margin-left: 40px;">
+                <button type="button" class="btn btn-primary" onclick="fun4()">Length</button>
+            </div>
+            <div class="col-md-2 col-xs-2" style="margin-left: 40px;">
+                <button type="button" class="btn btn-primary" onclick="fun5()">Reverse List</button>
+            </div>
+        </div>
+    </div><br><br><br>
+
+     <div class="container" id="append" style="display: none;">
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-4">
+                <label for="input" class="form-label fs-4">Enter the element to append</label> 
+            </div>
+            <div class="col-sm-3">
+                <input type="number" class="form-control" id="inp1" placeholder="Append" onchange="fun1()">
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="insert" style="display: none;">
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-4">
+                <label for="input" class="form-label fs-4">Enter position to insert</label> 
+            </div>
+            <div class="col-sm-3">
+                <input type="number" class="form-control" id="inp2" placeholder="position">
+            </div>
+        </div><br>
+
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-4">
+                <label for="input" class="form-label fs-4">Enter element to insert</label> 
+            </div>
+            <div class="col-sm-3">
+                <input type="number" class="form-control" id="inp3" placeholder="Insert" onchange="fun2()">
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="delete" style="display: none;">
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-4">
+                <label for="input" class="form-label fs-4">Enter position to delete </label> 
+            </div>
+            <div class="col-sm-3">
+                <input type="number" class="form-control" id="inp4" placeholder="Delete" onchange="fun3()">
+            </div>
+        </div>
+    </div><br><br>
+
+    <p id="print1" class="alert alert-success fs-4" style="display: none; margin-left: 10%; width: 80%; padding-left: 250px;"></p>
+    <p id="print2" class="alert alert-danger fs-4" style="display: none; margin-left: 10%; width: 80%; padding-left: 250px;"></p>
+
+    <script>
+
+        class Node {
+            constructor(data,link = null) {
+                this.data = data;
+                this.link = link;
+            }
+        }
+
+        class LinkedList {
+            constructor() {
+                this.head = null;
+                this.size = 0;
+            }
+
+            print1(str) {
+                document.getElementById("print2").style.display = "none";
+                document.getElementById("print1").style.display = "block";
+                document.getElementById("print1").innerHTML = str;
+             }
+              
+            print2(str) {
+                document.getElementById("print1").style.display = "none";
+                document.getElementById("print2").style.display = "block";
+                document.getElementById("print2").innerHTML = str; 
+            }
+
+            display() {
+                if (this.size == 0) {
+                    this.print2("No elements in linked list to display......");
+                    document.getElementById("disp").innerHTML = "No elements in Linked List..."
+                }
+                else {
+                    let temp = this.head.link;
+                    document.getElementById("disp").innerHTML = `<b>Linked List:</b>&emsp;&emsp;${this.head.data}`;
+                    while (temp != null) {
+                        document.getElementById("disp").innerHTML += ` &nbsp;-->&nbsp; ${temp.data}`;
+                        temp = temp.link;
+                    }
+                }
+            }
+
+            append(data) {
+                if(this.head == null) {
+                    this.head = new Node(data);
+                }
+                else {
+                    var node = new Node(data), temp = this.head;
+                    while(temp.link != null) 
+                        temp = temp.link;
+                    temp.link = node;       
+                }
+                this.size += 1;
+                this.display();
+                let str = `Element ${data} appended successfully.`;
+                this.print1(str);
+            }
+
+            insert(pos,data) {
+                if (pos <= 0 || pos >= this.size + 2) {
+                    this.print2("Invalid position.... Enter again");
+                }
+                else {
+                    var node = new Node(data);
+                    if (pos == 1) {
+                        node.link = this.head;
+                        this.head = node;
+                    }
+                    else {
+                        let i=0;
+                        var temp = this.head;
+                        while(i < pos-2) {
+                            console.log(temp.data);
+                            i+=1
+                            temp = temp.link;
+                    }
+                        node.link = temp.link;
+                        temp.link = node;
+                        console.log("narayana");
+                    }
+                    this.size += 1;
+                    this.display();
+                    this.print1(`Element ${data} inserted successfully at position ${pos}`);
+                }
+            }
+
+            delete(pos) {
+                if (pos <= 0 || pos > this.size)
+                    this.print2("Invalid position.... Enter again");
+                else {
+                    if (pos == 1) 
+                        this.head = this.head.link;
+                    else {
+                        let i = 0, temp = this.head;
+                        while(i<pos-2) {
+                            i += 1;
+                            temp = temp.link;
+                        }
+                        temp.link = temp.link.link;
+                    }
+                    this.size -= 1;
+                    this.display();
+                    this.print1(`Element at position ${pos} deleted successfully.`);
+                }
+            }
+
+            reverse() {
+                if (this.size == 0) {
+                    this.print2("No elements in linked list to Reverse......");
+                }
+                else {
+                    var prev_ptr = null, curr_ptr = this.head, next_ptr = null;
+                    while (curr_ptr != null) {                    
+                        next_ptr = curr_ptr.link;
+                        curr_ptr.link = prev_ptr;
+                        prev_ptr = curr_ptr;
+                        curr_ptr = next_ptr;
+                    }
+                    this.head = prev_ptr;
+                    this.display();
+                    this.print1("Linked List reversed successfully.");
+                }              
+            }
+        }
+
+        var n = new LinkedList();
+        function funa() {   
+            document.getElementById("insert").style.display = "none"; 
+            document.getElementById("delete").style.display = "none";  
+            document.getElementById("append").style.display = "block";
+        }
+
+        function funb() {  
+            document.getElementById("delete").style.display = "none";  
+            document.getElementById("append").style.display = "none";    
+            document.getElementById("insert").style.display = "block";
+        }
+
+        function func() {  
+            document.getElementById("append").style.display = "none";    
+            document.getElementById("insert").style.display = "none";  
+            if (n.size == 0) 
+                n.print2("No elements to delete.......");  
+            else
+                document.getElementById("delete").style.display = "block";
+        }
+
+        function fun1() {
+            val = document.getElementById("inp1").value; 
+            n.append(val);
+            document.getElementById("inp1").value = ""; 
+        }
+
+        function fun2() {
+            pos = document.getElementById("inp2").value;
+            val = document.getElementById("inp3").value;
+            n.insert(pos,val);
+            document.getElementById("inp2").value = "";
+            document.getElementById("inp3").value = "";
+        }
+
+        function fun3() {
+            pos = document.getElementById("inp4").value;
+            n.delete(pos);
+            document.getElementById("inp4").value = "";
+        }
+
+        function fun4() {
+            document.getElementById("delete").style.display = "none";  
+            document.getElementById("append").style.display = "none";    
+            document.getElementById("insert").style.display = "none";
+            n.print1(`Length of the Linked List is ${n.size}`);
+        }
+
+        function fun5(l) {
+            document.getElementById("delete").style.display = "none";  
+            document.getElementById("append").style.display = "none";    
+            document.getElementById("insert").style.display = "none";
+            n.reverse();
+        }
+    </script>
+</body>
+</html>
